@@ -1,0 +1,29 @@
+{
+  "name": "jbart-template",
+  "version": "0.5.0",
+  "description": "template for jBart project with examples and puppeteer server",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtwareSoft/jbart-template.git"
+  },
+  "keywords": [
+    "jbart",
+    "vscode",
+    "template",
+    "examples"
+  ],
+  "author": "Shai Ben-Yehuda <shaiby@artwaresoft.com> (http://artwaresoft.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArtwareSoft/jbart-template/issues"
+  },
+  "homepage": "https://github.com/ArtwareSoft/jbart-template#readme",
+  "dependencies": {
+    "jb-react": "github:artwaresoft/jb-react"
+  }
+}
