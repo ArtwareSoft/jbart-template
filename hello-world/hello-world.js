@@ -25,15 +25,14 @@ jb.component('dataResource.room', {
 jb.component('helloWorld.main', {
   type: 'control',
   impl: group({
-    controls: text({text: 'hegdflo', features: css.borderRadius('11')})
+    title: '',
+    layout: layout.flex({}),
+    controls: [
+      button({
+        title: 'click me',
+        action: openDialog({style: dialog.dialogOkCancel(), content: group({})})
+      })
+    ],
+    features: css.color({})
   })
 })
-
-
-jb.component('dataResource.studio', {
-  watchableData: {
-    libToAdd: 'inner-html',
-    libsAsArray: ['common', 'ui-common', 'material', 'dragula', 'md-icons']
-  }
-})
-
