@@ -1,4 +1,4 @@
-jb.ns('style-gallery')
+jb.ns('styleGallery')
 
 jb.component('galleryMultiChoice',{ watchableData : {
   result: ["Homer Simpson"],

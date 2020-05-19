@@ -27,17 +27,16 @@ jb.component('puppeteerDemo.main', {
               databindEvents: '%$events%',
               actions: [
                 pptr.gotoPage({url: 'https://google.com/', waitUntil: 'networkidle0'}),
-                pptr.function('page.keyboard.press('),
                 pptr.type({
                   text: 'vitamin',
                   selector: 'input[name=q]',
                   enterAtEnd: true,
                   delay: 100
                 }),
-                pptr.function('window.scrollBy(0,500);')
+                pptr.extractBySelector({selector: 'h3', extract: 'textContent', multiple: true})
               ]
             }),
-            raised: 'true'
+            raised: true
           }),
           button({
             title: 'search with js code',
@@ -45,8 +44,8 @@ jb.component('puppeteerDemo.main', {
               showBrowser: true,
               databindEvents: '%$events%',
               actions: pptr.function(
-                async (ctx,{page}) => { 
-  await page.goto('https://google.com', { waitUntil: 'networkidle0' }) 
+                async (ctx,{page}) => {
+  await page.goto('https://google.com', { waitUntil: 'networkidle0' })
 //const title = await page.title()
 const frame = await page.mainFrame()
 await frame.type('input[name=q]', 'puppeteer'+String.fromCharCode(13), { delay: 100 })
@@ -55,8 +54,6 @@ await frame.type('input[name=q]', 'puppeteer'+String.fromCharCode(13), { delay: 
     await frame.click('input[type=submit]')
     await frame.waitForSelector('h3 a')
     return await frame.$$eval('h3 a', anchors => { return anchors.map(a => { return a.textContent }) })
-
-
 
 }
               )
@@ -71,30 +68,16 @@ await frame.type('input[name=q]', 'puppeteer'+String.fromCharCode(13), { delay: 
       }),
       itemlist({
         items: '%$events%',
-        controls: [
-          text({text: json.stringify('%data%')})
-        ],
+        controls: [text({text: json.stringify('%data%')})],
         features: watchRef({ref: '%$events%', includeChildren: 'yes'})
       }),
       group({
+        layout: layout.vertical(),
         controls: [
-          image({url: pipeline('%$url/1%'), width: '595', height: '343'})
-        ],
-        features: group.wait({
-          for: {
-            '$': 'pptr.htmlFromPage',
-            '$byValue': [
-              {
-                '$': 'pptr.headlessPage',
-                url: 'http://www.google.com',
-                extract: {'$': 'pptr.extractContent', selector: 'img', extract: 'src', multiple: true},
-                features: pptr.waitForSelector('img'),
-                showBrowser: true
-              }
-            ]
-          },
-          varName: 'url'
-        })
+          text({text: 'start puppeteer server:', title: 'my title', style: header.h4()}),
+          text({text: 'cd .../projects/jb-puppeteer-server/', title: 'my title'}),
+          text({text: 'npm start', title: 'my title'})
+        ]
       })
     ]
   })
@@ -102,4 +85,35 @@ await frame.type('input[name=q]', 'puppeteer'+String.fromCharCode(13), { delay: 
 
 jb.component('dataResource.query', {
   watchableData: 'vitamins'
+})
+
+jb.component('puppeteerDemo.jbart', {
+  type: 'control',
+  impl: group({
+    title: '',
+    controls: [
+      button({
+        title: 'search in itemlist',
+        action: rx.pipe(
+          pptr.session({
+              showBrowser: true,
+              actions: [
+                pptr.gotoPage(
+                  'https://artwaresoft.github.io/jb-react/bin/studio/studio-cloud.html?project=itemlists&page=itemlists.main&profile_path=itemlists.main&host=github&hostProjectId=http://artwaresoft.github.io/jb-react/projects/itemlists'
+                ),
+                pptr.waitForSelector({selector: '.studio-pages-items>.jb-item:nth-child(5)'}),
+                pptr.mouseClick({
+                  selector: '.studio-pages-items>.jb-item:nth-child(6)',
+                  button: 'left',
+                  clickCount: '1',
+                  delay: '100'
+                }),
+                pptr.waitForSelector('#input_0'),
+                pptr.type({text: '22', selector: '#input_0', delay: 100})
+              ]
+            })
+        )
+      })
+    ]
+  })
 })

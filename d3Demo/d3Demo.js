@@ -1,4 +1,4 @@
-jb.ns('d3-demo,d3g')
+jb.ns('d3Demo,d3g')
 jb.ns('d3Chart,d3Scatter,d3Histogram')
 
 jb.component('d3Demo.main', {
@@ -6,7 +6,6 @@ jb.component('d3Demo.main', {
   impl: group({
     title: '',
     layout: layout.vertical('12'),
-    style: group.htmlTag({htmlTag: 'details', groupClass: '', itemClass: ''}),
     controls: [
       d3g.chartScatter({
         title: 'phones',
